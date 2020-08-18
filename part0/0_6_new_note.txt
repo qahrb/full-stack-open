@@ -1,0 +1,8 @@
+title spa new note 
+note over browser:
+When a note is added and the save button is clicked,
+the js renders the list to add the new note and sends
+a request to the backend to add the note to the db.
+end note
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: {message: "note created"}
