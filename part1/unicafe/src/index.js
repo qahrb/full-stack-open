@@ -9,13 +9,13 @@ const Button = ({clickHandle, text}) => {
   )
 }
 
-const Statistics = ({text}) => {
+const Statistics = ({text, value}) => {
   return (
-    <div>
-      {text}
-    </div>
+    <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+    </tr>
     )
-  
 }
 
 const App = () => {
@@ -42,12 +42,16 @@ const App = () => {
         <Button clickHandle={plusNeutral} text={'neutral'}/>
         <Button clickHandle={plusBad} text={'bad'}/>
         <h3>statistics</h3> 
-        <Statistics  text={'good ' + good}/>
-        <Statistics  text={'neutral ' + neutral}/>
-        <Statistics  text={'bad ' + bad}/>
-        <Statistics  text={'total ' + total}/>
-        <Statistics  text={'average ' + getAverage()}/>
-        <Statistics  text={'positive ' + ((good / total) * 100) + ' %'}/>
+        <table>
+          <tbody>
+            <Statistics  text={'good'} value={good}/>
+            <Statistics  text={'neutral '} value={neutral}/>
+            <Statistics  text={'bad '} value={bad}/>
+            <Statistics  text={'total ' } value={total}/>
+            <Statistics  text={'average '} value={getAverage()}/>
+            <Statistics  text={'positive '} value={((good / total) * 100) + ' %'}/>
+          </tbody>
+        </table>
       </div>
     )
   }
