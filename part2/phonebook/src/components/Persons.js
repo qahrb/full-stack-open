@@ -9,7 +9,7 @@ const Persons = ({personsToShow, removePerson}) => {
         {personsToShow.map(
           (person) =>  <div>
                           <p>{person.name}  {person.number}</p>
-                          <button onClick={() => removePerson(person.id)}>delete</button>
+                          <button onClick={() => removePerson(person)}>delete</button>
                         </div>
         )}
       </div>

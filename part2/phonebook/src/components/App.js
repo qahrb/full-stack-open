@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
 import Filter from './Filter';
+import Notification from './Notification'
 import phoneBook from '../services/people'
-import axios from 'axios'
 import shortid from 'shortid'
 
 
@@ -13,6 +13,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setSearch ] = useState('')
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
 
   const hook = () => {
     phoneBook
@@ -64,24 +66,45 @@ const App = () => {
       .create(personObject)
       .then(response => {
         setPersons(persons.concat(personObject))
+        
+        setMessage(
+          `Added '${newName}'`
+        )
+        setMessageType('normal');
         setNewName('');
         setNewNumber('');
+        setTimeout(() => {
+          setMessageType('');
+          setMessage('')
+        }, 5000)
+
       })
     
     }
   }
-  const removePerson = id =>{
-
-    const result = window.confirm(`Do you want to delete ${id}`)
+  const removePerson =  person => {
+    console.log(person);
+    const result = window.confirm(`Do you want to delete ${person.id}`)
     if(result){
       phoneBook
-        .remove(id)
+        .remove(person.id)
         .then(response =>{
           phoneBook
             .getAll()
             .then(response => {
               setPersons(response)
             })
+        })
+        .catch(error => {
+          setMessageType('error');
+          setMessage(
+            `Information of ${person.name} was already removed from server`
+          )
+          setTimeout(() => {
+            setMessageType('');
+            setMessage('');
+          }, 5000)
+          setPersons(persons.filter(n => n.id !== person.id))
         })
     }
   }
@@ -99,9 +122,15 @@ const App = () => {
   ? persons.filter(person => person.name.toLowerCase().startsWith(newSearch.toLowerCase())) 
   : persons
 
+ 
+
   return(
     <div>
       <h2>Phonebook</h2>
+      <Notification 
+      message={message} 
+      messageType={messageType} 
+        />
       <Filter 
         newSearch={newSearch} 
         handleSearchChange={handleSearchChange}
