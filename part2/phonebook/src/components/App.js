@@ -32,7 +32,7 @@ const App = () => {
     persons.forEach(element => {
         if (element.name === newName){
           alreadyAdded=true;
-          updateId = element.id;
+          updateId = element._id;
         }
     });
     if (alreadyAdded){
@@ -87,7 +87,7 @@ const App = () => {
     const result = window.confirm(`Do you want to delete ${person.id}`)
     if(result){
       phoneBook
-        .remove(person.id)
+        .remove(person._id)
         .then(response =>{
           phoneBook
             .getAll()
